@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Error</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 10px;
+        }
+        
+        .error-text {
+            font-size: 12px;
+            color: #333;
+            cursor: pointer;
+            user-select: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        .error-text:hover {
+            opacity: 1;
+        }
+        
+        /* Hidden image overlay - completely invisible until triggered */
+        .hidden-image {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hidden-image.active {
+            display: flex;
+        }
+        
+        .hidden-image img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        
+        .close-btn:hover {
+            opacity: 1;
+        }
+        
+        /* Easter egg hint (almost invisible) */
+        .easter-egg-hint {
+            position: fixed;
+            bottom: 5px;
+            right: 5px;
+            font-size: 8px;
+            color: #f0f0f0;
+            opacity: 0.1;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Only visible element on page load -->
+    <div class="error-text" id="errorText">Invalid QR code.</div>
+    
+    <!-- Hidden image overlay (completely invisible until clicked) -->
+    <div class="hidden-image" id="hiddenImage">
+        <span class="close-btn" id="closeBtn">×</span>
+        <img src="屏幕截图%202025-11-27%20225656.png" alt="Hidden Content">
+    </div>
+    
+    <!-- Almost invisible hint -->
+    <div class="easter-egg-hint">click</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const errorText = document.getElementById('errorText');
+            const hiddenImage = document.getElementById('hiddenImage');
+            const closeBtn = document.getElementById('closeBtn');
+            
+            // Track if image is visible
+            let imageVisible = false;
+            
+            // Click the error text to show image
+            errorText.addEventListener('click', function(e) {
+                e.stopPropagation();
+                hiddenImage.classList.add('active');
+                imageVisible = true;
+                document.body.style.overflow = 'hidden';
+                
+                // Change cursor to default to hide any hint
+                document.body.style.cursor = 'default';
+            });
+            
+            // Click the X to close
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                hiddenImage.classList.remove('active');
+                imageVisible = false;
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Click anywhere on the image to close
+            hiddenImage.addEventListener('click', function(e) {
+                if (e.target === hiddenImage) {
+                    hiddenImage.classList.remove('active');
+                    imageVisible = false;
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Close with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && imageVisible) {
+                    hiddenImage.classList.remove('active');
+                    imageVisible = false;
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Prevent right-click on error text (makes it feel more like a real QR error)
+            errorText.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>
