@@ -3,151 +3,2466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Error</title>
+    <title>MindSync - AI-Powered Study Planner | Study Smart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4CAF50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --quadrant1: #FF6B6B;
+            --quadrant2: #4CAF50;
+            --quadrant3: #FF9800;
+            --quadrant4: #9E9E9E;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            
+            /* Time Blocking Colors */
+            --block-study: #4361ee;
+            --block-lecture: #9c27b0;
+            --block-project: #ff5722;
+            --block-review: #00bcd4;
+            --block-break: #4cc9f0;
+            --block-meal: #4CAF50;
+            --block-exercise: #ff9800;
+            --block-sleep: #7209b7;
+            --block-personal: #9E9E9E;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
         }
-        
+
         body {
-            background-color: #f5f5f5;
-            min-height: 100vh;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding: 10px;
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: #f5f7ff;
+            line-height: 1.6;
         }
-        
-        .error-text {
-            font-size: 12px;
-            color: #333;
-            cursor: pointer;
-            user-select: none;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-        
-        .error-text:hover {
-            opacity: 1;
-        }
-        
-        /* Hidden image overlay - completely invisible until triggered */
-        .hidden-image {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+
+        .container {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
             z-index: 1000;
-            justify-content: center;
-            align-items: center;
         }
-        
-        .hidden-image.active {
+
+        .navbar {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
         }
-        
-        .hidden-image img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 4px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--primary);
         }
-        
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-size: 30px;
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
             cursor: pointer;
-            opacity: 0.5;
-            transition: opacity 0.2s;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
         }
-        
-        .close-btn:hover {
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #45a049;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background-color: #3ab4d8;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .tagline {
+            display: inline-block;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: var(--dark);
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid var(--light-gray);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon i {
+            font-size: 30px;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Planner App */
+        .planner-app {
+            padding: 80px 0;
+            background-color: #f5f7ff;
+        }
+
+        .app-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .app-tabs {
+            display: flex;
+            background-color: var(--light-gray);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .app-tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .app-tab.active {
+            background-color: white;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .app-content {
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .subject-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .subject-name {
+            flex: 1;
+        }
+
+        .subject-strength {
+            display: flex;
+            gap: 5px;
+        }
+
+        .strength-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .strength-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .strength-btn.weak.active {
+            background-color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .strength-btn.strong.active {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .study-plan {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .task-list {
+            list-style-type: none;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .task-checkbox {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+
+        .task-details {
+            flex: 1;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .task-quadrant {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+            color: white;
+        }
+
+        .quadrant-1 {
+            background-color: var(--quadrant1);
+        }
+
+        .quadrant-2 {
+            background-color: var(--quadrant2);
+        }
+
+        .quadrant-3 {
+            background-color: var(--quadrant3);
+        }
+
+        .quadrant-4 {
+            background-color: var(--quadrant4);
+        }
+
+        /* Vertical Color Blocks - Time Blocking */
+        .time-blocking-container {
+            margin-top: 30px;
+        }
+
+        .time-blocking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .time-blocking-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .vertical-timetable {
+            background-color: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            border: 1px solid #eee;
+            overflow: hidden;
+        }
+
+        .timetable-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .vertical-time-blocks {
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .time-block-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            min-height: 70px;
+            transition: var(--transition);
+        }
+
+        .time-block-row:hover {
+            background-color: #f9f9f9;
+        }
+
+        .time-block-row:last-child {
+            border-bottom: none;
+        }
+
+        .time-slot {
+            width: 100px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #eee;
+        }
+
+        .block-content {
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .block-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .block-color-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .block-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .block-details {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .block-subject {
+            display: inline-block;
+            background-color: rgba(0,0,0,0.05);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .block-actions {
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .time-block-row:hover .block-actions {
             opacity: 1;
         }
-        
-        /* Easter egg hint (almost invisible) */
-        .easter-egg-hint {
-            position: fixed;
-            bottom: 5px;
-            right: 5px;
-            font-size: 8px;
-            color: #f0f0f0;
-            opacity: 0.1;
-            user-select: none;
+
+        .block-btn {
+            padding: 6px 12px;
+            border: none;
+            background-color: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .block-btn.edit {
+            color: var(--primary);
+        }
+
+        .block-btn.edit:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .block-btn.delete {
+            color: var(--danger);
+        }
+
+        .block-btn.delete:hover {
+            background-color: rgba(244, 67, 54, 0.1);
+        }
+
+        .empty-slot {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        .recurring-badge {
+            display: inline-block;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+            font-weight: 500;
+        }
+
+        /* Block Details Panel */
+        .block-details-panel {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .block-details-panel h4 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .block-details-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .block-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .block-detail-label {
+            font-weight: 600;
+            color: var(--gray);
+            font-size: 14px;
+            min-width: 100px;
+        }
+
+        .block-detail-value {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        /* Add Time Block Form */
+        .add-block-form {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 0;
+        }
+
+        .block-type-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .block-type-option {
+            padding: 10px 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .block-type-option:hover {
+            transform: translateY(-2px);
+        }
+
+        .block-type-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .block-type-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .block-actions-form {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        /* Quadrant Explanation */
+        .quadrant-explanation {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .quadrant-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .quadrant-card {
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .quadrant-card h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .quadrant-card.quadrant-1 {
+            background-color: var(--quadrant1);
+        }
+
+        .quadrant-card.quadrant-2 {
+            background-color: var(--quadrant2);
+        }
+
+        .quadrant-card.quadrant-3 {
+            background-color: var(--quadrant3);
+        }
+
+        .quadrant-card.quadrant-4 {
+            background-color: var(--quadrant4);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            border: 2px solid var(--light-gray);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .price {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 20px 0;
+        }
+
+        .price span {
+            font-size: 16px;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .pricing-features {
+            list-style-type: none;
+            margin-bottom: 30px;
+        }
+
+        .pricing-features li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .pricing-features li i {
+            color: var(--success);
+            margin-right: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-links h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style-type: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .app-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .quadrant-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-slot {
+                width: 80px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+            
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .time-block-row {
+                flex-direction: column;
+                min-height: auto;
+                padding: 15px;
+            }
+            
+            .time-slot {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                justify-content: flex-start;
+                padding: 10px 15px;
+            }
+            
+            .block-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .block-info {
+                width: 100%;
+            }
+            
+            .block-actions {
+                opacity: 1;
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .block-actions-form {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Only visible element on page load -->
-    <div class="error-text" id="errorText">Invalid QR code.</div>
-    
-    <!-- Hidden image overlay (completely invisible until clicked) -->
-    <div class="hidden-image" id="hiddenImage">
-        <span class="close-btn" id="closeBtn">×</span>
-        <img src="屏幕截图%202025-11-27%20225656.png" alt="Hidden Content">
-    </div>
-    
-    <!-- Almost invisible hint -->
-    <div class="easter-egg-hint">click</div>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="https://image2url.com/r2/default/images/1770523109013-a711dc3b-4e3f-41ae-b25c-538620bf2efe.jpeg" alt="MindSync Logo" class="logo-img">
+                    <div>Mind<span>Sync</span></div>
+                </div>
+                <div class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#planner">Planner</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline" id="loginBtn">Log In</button>
+                    <button class="btn btn-primary" id="signupBtn">Sign Up Free</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="container">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="tagline">Study Smart</div>
+                    <h1>AI-Powered <span>Study Planner</span> for Academic Success</h1>
+                    <p>MindSync creates personalized study plans, tracks your progress, and adapts to your learning style. Whether you're in secondary school, university, or a working professional, we help you study smarter, not harder.</p>
+                    <div>
+                        <button class="btn btn-primary" id="startPlanningBtn">Start Planning Now</button>
+                        <button class="btn btn-outline" id="learnMoreBtn">Learn More</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Student studying with digital tools">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Powerful <span>Features</span> for Effective Learning</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Planning</h3>
+                    <p>Our AI analyzes your subjects, goals, and schedule to create personalized study plans that adapt in real time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Track your study progress with detailed analytics and insights to identify strengths and areas for improvement.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Adaptive Learning</h3>
+                    <p>MindSync adjusts your study plan based on your performance and changing deadlines for optimal results.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>AI Study Assistant</h3>
+                    <p>Get instant explanations, summaries, and practice questions with our AI chat feature for any subject.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Smart Reminders</h3>
+                    <p>Never miss a study session with intelligent reminders that keep you on track with your learning goals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Multi-Platform Access</h3>
+                    <p>Access your study plans on iOS, Android, or web browsers - your data syncs seamlessly across all devices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Planner App -->
+    <section id="planner" class="planner-app">
+        <div class="container">
+            <h2 class="section-title">Create Your <span>Study Plan</span></h2>
+            <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">Try our interactive planner to see how MindSync can organize your study schedule.</p>
+            
+            <div class="app-container">
+                <div class="app-header">
+                    <h3>MindSync Study Planner</h3>
+                    <div>
+                        <span id="currentDate">Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="app-tabs">
+                    <div class="app-tab active" data-tab="profile">Profile Setup</div>
+                    <div class="app-tab" data-tab="planner">Study Planner</div>
+                    <div class="app-tab" data-tab="tasks">My Tasks</div>
+                    <div class="app-tab" data-tab="timeblocking">Time Blocks</div>
+                </div>
+                
+                <div class="app-content">
+                    <!-- Profile Setup Tab -->
+                    <div id="profileTab" class="tab-content active">
+                        <h3>Set Up Your Study Profile</h3>
+                        <p>Tell us about your study goals and preferences to create a personalized plan.</p>
+                        
+                        <div class="form-group">
+                            <label for="userName">Full Name</label>
+                            <input type="text" id="userName" class="form-control" placeholder="Enter your name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="educationLevel">Education Level</label>
+                            <select id="educationLevel" class="form-control">
+                                <option value="">Select your education level</option>
+                                <option value="secondary">Secondary School</option>
+                                <option value="matriculation">Matriculation</option>
+                                <option value="university">University</option>
+                                <option value="professional">Working Professional</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Add Your Subjects</label>
+                            <div id="subjectsContainer">
+                                <div class="subject-item">
+                                    <input type="text" class="form-control subject-name" placeholder="Enter subject name">
+                                    <div class="subject-strength">
+                                        <button class="strength-btn weak" type="button">Weak</button>
+                                        <button class="strength-btn neutral" type="button">Neutral</button>
+                                        <button class="strength-btn strong" type="button">Strong</button>
+                                    </div>
+                                    <button class="btn btn-outline remove-subject" type="button" style="padding: 6px 12px;">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline" id="addSubjectBtn" style="margin-top: 10px;">
+                                <i class="fas fa-plus"></i> Add Another Subject
+                            </button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="wakeupTime">Wake-up Time</label>
+                            <select id="wakeupTime" class="form-control">
+                                <option value="6:00">6:00 AM</option>
+                                <option value="6:30">6:30 AM</option>
+                                <option value="7:00" selected>7:00 AM</option>
+                                <option value="7:30">7:30 AM</option>
+                                <option value="8:00">8:00 AM</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sleepTime">Sleep Time</label>
+                            <select id="sleepTime" class="form-control">
+                                <option value="22:00">10:00 PM</option>
+                                <option value="22:30">10:30 PM</option>
+                                <option value="23:00" selected>11:00 PM</option>
+                                <option value="23:30">11:30 PM</option>
+                                <option value="0:00">12:00 AM</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studyGoal">Primary Study Goal</label>
+                            <textarea id="studyGoal" class="form-control" rows="3" placeholder="e.g., Score A+ in final exams, Complete project by deadline, Master calculus concepts"></textarea>
+                        </div>
+                        
+                        <button class="btn btn-success" id="generatePlanBtn">Generate My Study Plan</button>
+                    </div>
+                    
+                    <!-- Study Planner Tab -->
+                    <div id="plannerTab" class="tab-content">
+                        <div class="plan-header">
+                            <h3>Your Weekly Study Plan</h3>
+                            <button class="btn btn-accent" id="refreshPlanBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh Plan
+                            </button>
+                        </div>
+                        
+                        <div id="studyPlanDisplay">
+                            <p>Complete your profile setup to generate a personalized study plan.</p>
+                        </div>
+                        
+                        <!-- Quadrant Explanation -->
+                        <div class="quadrant-explanation">
+                            <h4>Eisenhower Priority Matrix</h4>
+                            <div class="quadrant-grid">
+                                <div class="quadrant-card quadrant-1">
+                                    <h4>Quadrant 1: Do First</h4>
+                                    <p>Urgent & Important tasks: Crises, deadlines, pressing problems.</p>
+                                </div>
+                                <div class="quadrant-card quadrant-2">
+                                    <h4>Quadrant 2: Schedule</h4>
+                                    <p>Important but Not Urgent: Planning, growth, relationship building.</p>
+                                </div>
+                                <div class="quadrant-card quadrant-3">
+                                    <h4>Quadrant 3: Delegate</h4>
+                                    <p>Urgent but Not Important: Interruptions, some calls, others' priorities.</p>
+                                </div>
+                                <div class="quadrant-card quadrant-4">
+                                    <h4>Quadrant 4: Delete</h4>
+                                    <p>Not Urgent & Not Important: Time wasters, trivial activities.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px;">
+                            <label for="newTask">Add a New Task</label>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <input type="text" id="newTask" class="form-control" placeholder="Enter a new task" style="flex: 2;">
+                                <select id="taskQuadrant" class="form-control" style="flex: 1;">
+                                    <option value="1">Quadrant 1: Do First</option>
+                                    <option value="2" selected>Quadrant 2: Schedule</option>
+                                    <option value="3">Quadrant 3: Delegate</option>
+                                    <option value="4">Quadrant 4: Delete</option>
+                                </select>
+                                <select id="taskSubject" class="form-control" style="flex: 1;">
+                                    <option value="">General Task</option>
+                                </select>
+                                <button class="btn btn-primary" id="addTaskBtn">Add Task</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- My Tasks Tab -->
+                    <div id="tasksTab" class="tab-content">
+                        <h3>My Study Tasks</h3>
+                        <p>Track your progress and mark tasks as completed.</p>
+                        
+                        <ul class="task-list" id="taskList">
+                            <!-- Tasks will be dynamically added here -->
+                        </ul>
+                        
+                        <div id="progressStats" style="margin-top: 30px; padding: 20px; background-color: #f0f7ff; border-radius: 8px;">
+                            <h4>Progress Summary</h4>
+                            <div style="display: flex; gap: 30px; margin-top: 15px; flex-wrap: wrap;">
+                                <div>
+                                    <div style="font-size: 32px; font-weight: 700; color: var(--primary);" id="completedTasks">0</div>
+                                    <div style="color: var(--gray);">Tasks Completed</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 32px; font-weight: 700; color: var(--success);" id="completionRate">0%</div>
+                                    <div style="color: var(--gray);">Completion Rate</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 32px; font-weight: 700; color: var(--accent);" id="studyStreak">0</div>
+                                    <div style="color: var(--gray);">Day Streak</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 32px; font-weight: 700; color: var(--warning);" id="quadrant1Tasks">0</div>
+                                    <div style="color: var(--gray);">Quadrant 1 Tasks</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vertical Time Blocks Tab -->
+                    <div id="timeblockingTab" class="tab-content">
+                        <div class="time-blocking-header">
+                            <h3>Vertical Time Blocks</h3>
+                            <button class="btn btn-primary" id="applyTimeBlocksBtn">
+                                <i class="fas fa-magic"></i> Generate Time Blocks
+                            </button>
+                        </div>
+                        
+                        <p>Visual time blocking with color-coded blocks for different activities. Time slots are listed vertically for easy viewing.</p>
+                        
+                        <!-- Color Legend -->
+                        <div class="time-blocking-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--block-study);"></div>
+                                <span class="legend-label">Study / Focus</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--block-lecture);"></div>
+                                <span class="legend-label">Lectures / Classes</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--block-project);"></div>
+                                <span class="legend-label">Project Work</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--block-review);"></div>
+                                <span class="legend-label">Review / Revision</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--block-break);"></div>
+                                <span class="legend-label">Breaks</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--block-meal);"></div>
+                                <span class="legend-label">Meals</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--block-exercise);"></div>
+                                <span class="legend-label">Exercise</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: var(--block-sleep);"></div>
+                                <span class="legend-label">Sleep</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Vertical Time Blocks Display -->
+                        <div class="vertical-timetable">
+                            <div class="timetable-header">
+                                <i class="fas fa-calendar-day"></i> Monday - Daily Schedule
+                            </div>
+                            <div class="vertical-time-blocks" id="verticalTimeBlocks">
+                                <!-- Time blocks will be dynamically added here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Block Details Panel -->
+                        <div class="block-details-panel" id="blockDetailsPanel">
+                            <h4>Block Details</h4>
+                            <div class="block-details-content" id="blockDetailsContent">
+                                <div class="block-detail-item">
+                                    <span class="block-detail-label">Selected Block:</span>
+                                    <span class="block-detail-value">Click on a time block to see details</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Add Time Block Form -->
+                        <div class="add-block-form">
+                            <h4>Create New Time Block</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="timeBlockTitle">Block Title</label>
+                                    <input type="text" id="timeBlockTitle" class="form-control" placeholder="e.g., Study Mathematics">
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeBlockStart">Start Time</label>
+                                    <select id="timeBlockStart" class="form-control">
+                                        <option value="6">6:00 AM</option>
+                                        <option value="7">7:00 AM</option>
+                                        <option value="8" selected>8:00 AM</option>
+                                        <option value="9">9:00 AM</option>
+                                        <option value="10">10:00 AM</option>
+                                        <option value="11">11:00 AM</option>
+                                        <option value="12">12:00 PM</option>
+                                        <option value="13">1:00 PM</option>
+                                        <option value="14">2:00 PM</option>
+                                        <option value="15">3:00 PM</option>
+                                        <option value="16">4:00 PM</option>
+                                        <option value="17">5:00 PM</option>
+                                        <option value="18">6:00 PM</option>
+                                        <option value="19">7:00 PM</option>
+                                        <option value="20">8:00 PM</option>
+                                        <option value="21">9:00 PM</option>
+                                        <option value="22">10:00 PM</option>
+                                        <option value="23">11:00 PM</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeBlockDuration">Duration (hours)</label>
+                                    <select id="timeBlockDuration" class="form-control">
+                                        <option value="0.5">30 min</option>
+                                        <option value="1" selected>1 hour</option>
+                                        <option value="1.5">1.5 hours</option>
+                                        <option value="2">2 hours</option>
+                                        <option value="3">3 hours</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Block Type & Color</label>
+                                <div class="block-type-selector" id="timeBlockTypeSelector">
+                                    <div class="block-type-option selected" data-type="study">
+                                        <div class="block-type-color" style="background-color: var(--block-study);"></div>
+                                        Study / Focus
+                                    </div>
+                                    <div class="block-type-option" data-type="lecture">
+                                        <div class="block-type-color" style="background-color: var(--block-lecture);"></div>
+                                        Lecture / Class
+                                    </div>
+                                    <div class="block-type-option" data-type="project">
+                                        <div class="block-type-color" style="background-color: var(--block-project);"></div>
+                                        Project Work
+                                    </div>
+                                    <div class="block-type-option" data-type="review">
+                                        <div class="block-type-color" style="background-color: var(--block-review);"></div>
+                                        Review
+                                    </div>
+                                    <div class="block-type-option" data-type="break">
+                                        <div class="block-type-color" style="background-color: var(--block-break);"></div>
+                                        Break
+                                    </div>
+                                    <div class="block-type-option" data-type="meal">
+                                        <div class="block-type-color" style="background-color: var(--block-meal);"></div>
+                                        Meal
+                                    </div>
+                                    <div class="block-type-option" data-type="exercise">
+                                        <div class="block-type-color" style="background-color: var(--block-exercise);"></div>
+                                        Exercise
+                                    </div>
+                                    <div class="block-type-option" data-type="sleep">
+                                        <div class="block-type-color" style="background-color: var(--block-sleep);"></div>
+                                        Sleep
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="timeBlockSubject">Subject (optional)</label>
+                                    <select id="timeBlockSubject" class="form-control">
+                                        <option value="">No specific subject</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeBlockRecurring">Recurrence</label>
+                                    <select id="timeBlockRecurring" class="form-control">
+                                        <option value="none">No recurrence</option>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekdays" selected>Weekdays only</option>
+                                        <option value="weekly">Weekly</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="block-actions-form">
+                                <button class="btn btn-primary" id="addTimeBlockBtn">
+                                    <i class="fas fa-plus"></i> Add Time Block
+                                </button>
+                                <button class="btn btn-accent" id="generateAutoTimeBlocksBtn">
+                                    <i class="fas fa-robot"></i> Auto-Generate Schedule
+                                </button>
+                                <button class="btn btn-outline" id="clearTimeBlocksBtn">
+                                    <i class="fas fa-trash"></i> Clear All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple, <span>Transparent</span> Pricing</h2>
+            <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">Choose the plan that fits your study needs. All plans include our 7-day money-back guarantee.</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Basic</h3>
+                    <div class="price">FREE<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> AI-Powered Study Planner</li>
+                        <li><i class="fas fa-check"></i> Daily Reminders</li>
+                        <li><i class="fas fa-check"></i> Basic Progress Tracking</li>
+                        <li><i class="fas fa-check"></i> Limited AI Chat (50/day)</li>
+                        <li><i class="fas fa-times"></i> <span style="color: #aaa;">No Ads Removal</span></li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;">Get Started</button>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">MOST POPULAR</div>
+                    <h3>Individual</h3>
+                    <div class="price">RM15<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Basic</li>
+                        <li><i class="fas fa-check"></i> Unlimited AI Chat</li>
+                        <li><i class="fas fa-check"></i> Ad-Free Experience</li>
+                        <li><i class="fas fa-check"></i> Advanced Analytics</li>
+                        <li><i class="fas fa-check"></i> Priority Support</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%;">Choose Plan</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Group</h3>
+                    <div class="price">RM60<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Up to 5 Users</li>
+                        <li><i class="fas fa-check"></i> Shared Study Plans</li>
+                        <li><i class="fas fa-check"></i> Collaborative Features</li>
+                        <li><i class="fas fa-check"></i> Group Progress Tracking</li>
+                        <li><i class="fas fa-check"></i> Cost-Effective Pricing</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;">Choose Plan</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Lite</h3>
+                    <div class="price">RM8<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> All Individual Features</li>
+                        <li><i class="fas fa-check"></i> Limited AI Chat</li>
+                        <li><i class="fas fa-check"></i> For Casual Learners</li>
+                        <li><i class="fas fa-check"></i> Ad-Free Experience</li>
+                        <li><i class="fas fa-check"></i> Basic Support</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;">Choose Plan</button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <p><i class="fas fa-gift" style="color: var(--primary); margin-right: 8px;"></i> Special offer: 7-day free trial on all paid plans + discount on first subscription!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">MindSync</div>
+                    <p>An AI-powered study planner that helps students and professionals study smarter, not harder. Personalized planning, adaptive learning, and progress tracking in one platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#planner">Study Planner</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">Download App</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> support@mindsync.ai</li>
+                        <li><i class="fas fa-globe" style="margin-right: 8px;"></i> www.mindsync.ai</li>
+                        <li><i class="fab fa-instagram" style="margin-right: 8px;"></i> @MindSyncApp</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 SynapsX. All rights reserved. MindSync is an AI-powered study planner application.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const errorText = document.getElementById('errorText');
-            const hiddenImage = document.getElementById('hiddenImage');
-            const closeBtn = document.getElementById('closeBtn');
-            
-            // Track if image is visible
-            let imageVisible = false;
-            
-            // Click the error text to show image
-            errorText.addEventListener('click', function(e) {
-                e.stopPropagation();
-                hiddenImage.classList.add('active');
-                imageVisible = true;
-                document.body.style.overflow = 'hidden';
+        // Current date display
+        const currentDateElement = document.getElementById('currentDate');
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        currentDateElement.textContent = now.toLocaleDateString('en-US', options);
+        
+        // Tab switching functionality
+        const tabs = document.querySelectorAll('.app-tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.getAttribute('data-tab');
                 
-                // Change cursor to default to hide any hint
-                document.body.style.cursor = 'default';
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${targetTab}Tab`) {
+                        content.classList.add('active');
+                    }
+                });
+                
+                // If switching to time blocks tab, render blocks
+                if (targetTab === 'timeblocking') {
+                    renderVerticalTimeBlocks();
+                }
             });
-            
-            // Click the X to close
-            closeBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                hiddenImage.classList.remove('active');
-                imageVisible = false;
-                document.body.style.overflow = 'auto';
+        });
+        
+        // Subject strength selection
+        function setupSubjectStrengthButtons() {
+            document.querySelectorAll('.strength-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const subjectItem = this.closest('.subject-item');
+                    const strengthButtons = subjectItem.querySelectorAll('.strength-btn');
+                    
+                    // Remove active class from all buttons in this subject
+                    strengthButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                });
             });
+        }
+        
+        // Add subject functionality
+        document.getElementById('addSubjectBtn').addEventListener('click', function() {
+            const subjectsContainer = document.getElementById('subjectsContainer');
+            const subjectCount = subjectsContainer.children.length + 1;
             
-            // Click anywhere on the image to close
-            hiddenImage.addEventListener('click', function(e) {
-                if (e.target === hiddenImage) {
-                    hiddenImage.classList.remove('active');
-                    imageVisible = false;
-                    document.body.style.overflow = 'auto';
+            const newSubject = document.createElement('div');
+            newSubject.className = 'subject-item';
+            newSubject.innerHTML = `
+                <input type="text" class="form-control subject-name" placeholder="Enter subject ${subjectCount}">
+                <div class="subject-strength">
+                    <button class="strength-btn weak" type="button">Weak</button>
+                    <button class="strength-btn neutral" type="button">Neutral</button>
+                    <button class="strength-btn strong" type="button">Strong</button>
+                </div>
+                <button class="btn btn-outline remove-subject" type="button" style="padding: 6px 12px;">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            subjectsContainer.appendChild(newSubject);
+            setupSubjectStrengthButtons();
+            
+            // Add remove functionality
+            newSubject.querySelector('.remove-subject').addEventListener('click', function() {
+                if (subjectsContainer.children.length > 1) {
+                    this.closest('.subject-item').remove();
+                    updateSubjectDropdown();
+                    updateTimeBlockSubjectDropdown();
                 }
             });
             
-            // Close with Escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && imageVisible) {
-                    hiddenImage.classList.remove('active');
-                    imageVisible = false;
-                    document.body.style.overflow = 'auto';
+            updateSubjectDropdown();
+            updateTimeBlockSubjectDropdown();
+        });
+        
+        // Remove subject functionality
+        document.querySelectorAll('.remove-subject').forEach(button => {
+            button.addEventListener('click', function() {
+                const subjectsContainer = document.getElementById('subjectsContainer');
+                if (subjectsContainer.children.length > 1) {
+                    this.closest('.subject-item').remove();
+                    updateSubjectDropdown();
+                    updateTimeBlockSubjectDropdown();
+                }
+            });
+        });
+        
+        // Update task subject dropdown
+        function updateSubjectDropdown() {
+            const subjectDropdown = document.getElementById('taskSubject');
+            subjectDropdown.innerHTML = '<option value="">General Task</option>';
+            
+            document.querySelectorAll('.subject-name').forEach(input => {
+                const subjectName = input.value.trim();
+                if (subjectName) {
+                    const option = document.createElement('option');
+                    option.value = subjectName;
+                    option.textContent = subjectName;
+                    subjectDropdown.appendChild(option);
+                }
+            });
+        }
+        
+        // Update time block subject dropdown
+        function updateTimeBlockSubjectDropdown() {
+            const blockSubjectDropdown = document.getElementById('timeBlockSubject');
+            blockSubjectDropdown.innerHTML = '<option value="">No specific subject</option>';
+            
+            document.querySelectorAll('.subject-name').forEach(input => {
+                const subjectName = input.value.trim();
+                if (subjectName) {
+                    const option = document.createElement('option');
+                    option.value = subjectName;
+                    option.textContent = subjectName;
+                    blockSubjectDropdown.appendChild(option);
+                }
+            });
+        }
+        
+        // Sample tasks data
+        let tasks = [
+            { id: 1, text: "Complete Calculus chapter 5 exercises", completed: false, quadrant: "1", subject: "Mathematics" },
+            { id: 2, text: "Review Physics formulas for upcoming quiz", completed: true, quadrant: "2", subject: "Physics" },
+            { id: 3, text: "Read Biology chapter on cell structure", completed: false, quadrant: "2", subject: "Biology" },
+            { id: 4, text: "Practice English essay writing", completed: false, quadrant: "3", subject: "English" },
+            { id: 5, text: "Create Chemistry revision flashcards", completed: true, quadrant: "4", subject: "Chemistry" }
+        ];
+        
+        // Time blocks data (vertical list)
+        let timeBlocks = [
+            { id: 1, time: "6:00 AM", title: "Morning Routine", type: "personal", subject: "", duration: 1, recurring: "daily" },
+            { id: 2, time: "7:00 AM", title: "Breakfast", type: "meal", subject: "", duration: 1, recurring: "daily" },
+            { id: 3, time: "8:00 AM", title: "Mathematics Study", type: "study", subject: "Mathematics", duration: 2, recurring: "weekdays" },
+            { id: 4, time: "10:00 AM", title: "Physics Lecture", type: "lecture", subject: "Physics", duration: 1, recurring: "weekly" },
+            { id: 5, time: "11:00 AM", title: "Short Break", type: "break", subject: "", duration: 0.5, recurring: "daily" },
+            { id: 6, time: "12:00 PM", title: "Lunch Break", type: "meal", subject: "", duration: 1, recurring: "daily" },
+            { id: 7, time: "2:00 PM", title: "Biology Review", type: "review", subject: "Biology", duration: 1, recurring: "weekdays" },
+            { id: 8, time: "3:00 PM", title: "Project Work", type: "project", subject: "", duration: 2, recurring: "weekly" },
+            { id: 9, time: "5:00 PM", title: "Exercise", type: "exercise", subject: "", duration: 1, recurring: "weekdays" },
+            { id: 10, time: "7:00 PM", title: "Dinner", type: "meal", subject: "", duration: 1, recurring: "daily" },
+            { id: 11, time: "8:00 PM", title: "Evening Review", type: "review", subject: "", duration: 1, recurring: "daily" },
+            { id: 12, time: "9:00 PM", title: "Personal Time", type: "personal", subject: "", duration: 1, recurring: "daily" },
+            { id: 13, time: "10:00 PM", title: "Sleep", type: "sleep", subject: "", duration: 2, recurring: "daily" }
+        ];
+        
+        // Color mapping
+        const colorMap = {
+            'study': 'var(--block-study)',
+            'lecture': 'var(--block-lecture)',
+            'project': 'var(--block-project)',
+            'review': 'var(--block-review)',
+            'break': 'var(--block-break)',
+            'meal': 'var(--block-meal)',
+            'exercise': 'var(--block-exercise)',
+            'sleep': 'var(--block-sleep)',
+            'personal': 'var(--block-personal)'
+        };
+        
+        // Get recurring badge text
+        function getRecurringBadge(recurring) {
+            if (recurring === 'daily') return 'Daily';
+            if (recurring === 'weekdays') return 'Weekdays';
+            if (recurring === 'weekly') return 'Weekly';
+            return '';
+        }
+        
+        // Format time display
+        function formatTimeDisplay(time, duration) {
+            // Parse time like "8:00 AM"
+            const timeParts = time.split(' ');
+            const hourMinute = timeParts[0].split(':');
+            let hour = parseInt(hourMinute[0]);
+            const minute = hourMinute[1];
+            const ampm = timeParts[1];
+            
+            // Calculate end time
+            let endHour = hour + Math.floor(duration);
+            let endMinute = parseInt(minute) + ((duration % 1) * 60);
+            
+            if (endMinute >= 60) {
+                endHour += 1;
+                endMinute -= 60;
+            }
+            
+            // Determine AM/PM for end time
+            let endAmpm = ampm;
+            if (endHour >= 12) {
+                endAmpm = endHour >= 12 && hour < 12 ? 'PM' : ampm;
+                if (endHour > 12) endHour -= 12;
+            }
+            
+            if (hour > 12) hour -= 12;
+            if (hour === 0) hour = 12;
+            
+            return `${hour}:${minute} ${ampm} - ${endHour}:${endMinute.toString().padStart(2, '0')} ${endAmpm}`;
+        }
+        
+        // Render vertical time blocks
+        function renderVerticalTimeBlocks() {
+            const verticalTimeBlocks = document.getElementById('verticalTimeBlocks');
+            verticalTimeBlocks.innerHTML = '';
+            
+            // Sort time blocks by time
+            timeBlocks.sort((a, b) => {
+                // Convert time to 24-hour format for sorting
+                const timeA = convertTo24Hour(a.time);
+                const timeB = convertTo24Hour(b.time);
+                return timeA - timeB;
+            });
+            
+            // Create time slots from 6:00 AM to 11:00 PM
+            const timeSlots = [
+                "6:00 AM", "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM",
+                "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
+                "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"
+            ];
+            
+            timeSlots.forEach(slot => {
+                // Find block at this time
+                const block = timeBlocks.find(b => b.time === slot);
+                
+                const row = document.createElement('div');
+                row.className = 'time-block-row';
+                row.setAttribute('data-time', slot);
+                
+                if (block) {
+                    const blockColor = colorMap[block.type] || colorMap['personal'];
+                    const timeDisplay = formatTimeDisplay(block.time, block.duration);
+                    const recurringBadge = getRecurringBadge(block.recurring);
+                    
+                    row.innerHTML = `
+                        <div class="time-slot">${block.time}</div>
+                        <div class="block-content">
+                            <div class="block-info">
+                                <div class="block-color-indicator" style="background-color: ${blockColor};"></div>
+                                <div>
+                                    <div class="block-title">${block.title}</div>
+                                    <div class="block-details">
+                                        ${timeDisplay}
+                                        ${block.subject ? `<span class="block-subject">${block.subject}</span>` : ''}
+                                        ${recurringBadge ? `<span class="recurring-badge">${recurringBadge}</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-actions">
+                                <button class="block-btn edit" data-id="${block.id}">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="block-btn delete" data-id="${block.id}">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add click event to show details
+                    row.addEventListener('click', function(e) {
+                        if (!e.target.classList.contains('block-btn')) {
+                            showBlockDetails(block);
+                        }
+                    });
+                } else {
+                    row.innerHTML = `
+                        <div class="time-slot">${slot}</div>
+                        <div class="block-content">
+                            <div class="block-info">
+                                <div class="block-color-indicator" style="background-color: #f8f9fa;"></div>
+                                <div class="empty-slot">Available - Click to add activity</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add click event to add block at this time
+                    row.addEventListener('click', function() {
+                        const time = this.getAttribute('data-time');
+                        document.getElementById('timeBlockStart').value = convertTimeToHour(time);
+                        showBlockDetails(null);
+                        
+                        // Scroll to form
+                        document.querySelector('.add-block-form').scrollIntoView({ behavior: 'smooth' });
+                    });
+                }
+                
+                verticalTimeBlocks.appendChild(row);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('.block-btn.edit').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const blockId = parseInt(this.getAttribute('data-id'));
+                    const block = timeBlocks.find(b => b.id === blockId);
+                    if (block) {
+                        editTimeBlock(block);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.block-btn.delete').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const blockId = parseInt(this.getAttribute('data-id'));
+                    const block = timeBlocks.find(b => b.id === blockId);
+                    if (block && confirm(`Are you sure you want to delete "${block.title}"?`)) {
+                        timeBlocks = timeBlocks.filter(b => b.id !== blockId);
+                        renderVerticalTimeBlocks();
+                        showBlockDetails(null);
+                    }
+                });
+            });
+        }
+        
+        // Convert time to 24-hour format for sorting
+        function convertTo24Hour(timeStr) {
+            const [time, modifier] = timeStr.split(' ');
+            let [hours, minutes] = time.split(':');
+            
+            if (hours === '12') {
+                hours = '00';
+            }
+            
+            if (modifier === 'PM') {
+                hours = parseInt(hours, 10) + 12;
+            }
+            
+            return parseInt(hours) * 60 + parseInt(minutes);
+        }
+        
+        // Convert time like "8:00 AM" to hour value for select
+        function convertTimeToHour(timeStr) {
+            const [time, modifier] = timeStr.split(' ');
+            let [hours] = time.split(':');
+            
+            hours = parseInt(hours, 10);
+            
+            if (modifier === 'PM' && hours !== 12) {
+                hours += 12;
+            }
+            
+            if (modifier === 'AM' && hours === 12) {
+                hours = 0;
+            }
+            
+            return hours;
+        }
+        
+        // Show block details
+        function showBlockDetails(block) {
+            const detailsPanel = document.getElementById('blockDetailsContent');
+            
+            if (block) {
+                const timeDisplay = formatTimeDisplay(block.time, block.duration);
+                const recurringText = getRecurringBadge(block.recurring);
+                
+                detailsPanel.innerHTML = `
+                    <div class="block-detail-item">
+                        <span class="block-detail-label">Title:</span>
+                        <span class="block-detail-value">${block.title}</span>
+                    </div>
+                    <div class="block-detail-item">
+                        <span class="block-detail-label">Time:</span>
+                        <span class="block-detail-value">${timeDisplay}</span>
+                    </div>
+                    <div class="block-detail-item">
+                        <span class="block-detail-label">Type:</span>
+                        <span class="block-detail-value" style="text-transform: capitalize;">${block.type}</span>
+                    </div>
+                    ${block.subject ? `
+                    <div class="block-detail-item">
+                        <span class="block-detail-label">Subject:</span>
+                        <span class="block-detail-value">${block.subject}</span>
+                    </div>
+                    ` : ''}
+                    ${recurringText ? `
+                    <div class="block-detail-item">
+                        <span class="block-detail-label">Recurrence:</span>
+                        <span class="block-detail-value">${recurringText}</span>
+                    </div>
+                    ` : ''}
+                `;
+            } else {
+                detailsPanel.innerHTML = `
+                    <div class="block-detail-item">
+                        <span class="block-detail-label">Selected:</span>
+                        <span class="block-detail-value">No block selected. Use the form below to add a new time block.</span>
+                    </div>
+                `;
+            }
+        }
+        
+        // Edit time block
+        function editTimeBlock(block) {
+            // Convert time like "8:00 AM" to hour value
+            const hour = convertTimeToHour(block.time);
+            
+            document.getElementById('timeBlockTitle').value = block.title;
+            document.getElementById('timeBlockStart').value = hour;
+            document.getElementById('timeBlockDuration').value = block.duration;
+            document.getElementById('timeBlockSubject').value = block.subject || '';
+            document.getElementById('timeBlockRecurring').value = block.recurring || 'none';
+            
+            // Select block type
+            document.querySelectorAll('#timeBlockTypeSelector .block-type-option').forEach(option => {
+                option.classList.remove('selected');
+                if (option.getAttribute('data-type') === block.type) {
+                    option.classList.add('selected');
                 }
             });
             
-            // Prevent right-click on error text (makes it feel more like a real QR error)
-            errorText.addEventListener('contextmenu', function(e) {
+            showBlockDetails(block);
+            
+            // Scroll to form
+            document.querySelector('.add-block-form').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Render tasks function
+        function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                
+                // Set border color based on quadrant
+                let borderColor = 'var(--primary)';
+                if (task.quadrant === '1') borderColor = 'var(--quadrant1)';
+                if (task.quadrant === '2') borderColor = 'var(--quadrant2)';
+                if (task.quadrant === '3') borderColor = 'var(--quadrant3)';
+                if (task.quadrant === '4') borderColor = 'var(--quadrant4)';
+                
+                li.style.borderLeftColor = borderColor;
+                
+                li.innerHTML = `
+                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} data-id="${task.id}">
+                    <div class="task-details">
+                        ${task.text}
+                        ${task.subject ? `<small style="color: var(--gray);">(${task.subject})</small>` : ''}
+                        <span class="task-quadrant quadrant-${task.quadrant}">Q${task.quadrant}</span>
+                    </div>
+                    <div class="task-actions">
+                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 14px;" data-id="${task.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 14px; color: var(--danger);" data-id="${task.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                taskList.appendChild(li);
+            });
+            
+            updateProgressStats();
+        }
+        
+        // Update progress statistics
+        function updateProgressStats() {
+            const completedTasks = tasks.filter(task => task.completed).length;
+            const totalTasks = tasks.length;
+            const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+            const quadrant1Tasks = tasks.filter(task => task.quadrant === '1' && !task.completed).length;
+            
+            document.getElementById('completedTasks').textContent = completedTasks;
+            document.getElementById('completionRate').textContent = `${completionRate}%`;
+            document.getElementById('quadrant1Tasks').textContent = quadrant1Tasks;
+            
+            // Simple streak calculation (for demo purposes)
+            const studyStreak = Math.min(completedTasks, 14);
+            document.getElementById('studyStreak').textContent = studyStreak;
+        }
+        
+        // Initialize tasks and subject dropdowns
+        renderTasks();
+        setupSubjectStrengthButtons();
+        updateSubjectDropdown();
+        updateTimeBlockSubjectDropdown();
+        renderVerticalTimeBlocks();
+        
+        // Task completion toggle
+        document.addEventListener('change', function(e) {
+            if (e.target.classList.contains('task-checkbox')) {
+                const taskId = parseInt(e.target.getAttribute('data-id'));
+                const task = tasks.find(t => t.id === taskId);
+                if (task) {
+                    task.completed = e.target.checked;
+                    renderTasks();
+                }
+            }
+        });
+        
+        // Add new task
+        document.getElementById('addTaskBtn').addEventListener('click', function() {
+            const newTaskInput = document.getElementById('newTask');
+            const taskQuadrant = document.getElementById('taskQuadrant').value;
+            const taskSubject = document.getElementById('taskSubject').value;
+            
+            if (newTaskInput.value.trim() !== '') {
+                const newTask = {
+                    id: tasks.length + 1,
+                    text: newTaskInput.value,
+                    completed: false,
+                    quadrant: taskQuadrant,
+                    subject: taskSubject || null
+                };
+                
+                tasks.push(newTask);
+                renderTasks();
+                newTaskInput.value = '';
+                
+                // Switch to tasks tab
+                document.querySelector('.app-tab[data-tab="tasks"]').click();
+            }
+        });
+        
+        // Block type selector
+        document.querySelectorAll('#timeBlockTypeSelector .block-type-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('#timeBlockTypeSelector .block-type-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+        
+        // Add time block
+        document.getElementById('addTimeBlockBtn').addEventListener('click', function() {
+            const blockTitle = document.getElementById('timeBlockTitle').value;
+            const blockStart = parseInt(document.getElementById('timeBlockStart').value);
+            const blockDuration = parseFloat(document.getElementById('timeBlockDuration').value);
+            const blockSubject = document.getElementById('timeBlockSubject').value;
+            const blockRecurring = document.getElementById('timeBlockRecurring').value;
+            
+            const selectedTypeOption = document.querySelector('#timeBlockTypeSelector .block-type-option.selected');
+            const blockType = selectedTypeOption ? selectedTypeOption.getAttribute('data-type') : 'personal';
+            
+            if (blockTitle.trim() !== '') {
+                // Convert hour to time string (e.g., 8 -> "8:00 AM")
+                let timeStr = '';
+                if (blockStart === 0) {
+                    timeStr = "12:00 AM";
+                } else if (blockStart < 12) {
+                    timeStr = `${blockStart}:00 AM`;
+                } else if (blockStart === 12) {
+                    timeStr = "12:00 PM";
+                } else {
+                    timeStr = `${blockStart - 12}:00 PM`;
+                }
+                
+                // Check if time slot is already taken
+                const existingBlock = timeBlocks.find(b => b.time === timeStr);
+                if (existingBlock) {
+                    alert('This time slot is already occupied. Please choose a different time.');
+                    return;
+                }
+                
+                const newBlock = {
+                    id: timeBlocks.length > 0 ? Math.max(...timeBlocks.map(b => b.id)) + 1 : 1,
+                    time: timeStr,
+                    title: blockTitle,
+                    type: blockType,
+                    subject: blockSubject,
+                    duration: blockDuration,
+                    recurring: blockRecurring
+                };
+                
+                timeBlocks.push(newBlock);
+                renderVerticalTimeBlocks();
+                showBlockDetails(newBlock);
+                
+                // Clear the form
+                document.getElementById('timeBlockTitle').value = '';
+                document.getElementById('timeBlockStart').value = '8';
+                document.getElementById('timeBlockDuration').value = '1';
+                document.getElementById('timeBlockSubject').value = '';
+                document.getElementById('timeBlockRecurring').value = 'weekdays';
+                
+                alert('Time block added successfully!');
+            }
+        });
+        
+        // Generate auto time blocks
+        document.getElementById('generateAutoTimeBlocksBtn').addEventListener('click', function() {
+            // Clear existing blocks
+            timeBlocks = [];
+            
+            // Get subjects
+            const subjects = [];
+            document.querySelectorAll('.subject-item').forEach(item => {
+                const nameInput = item.querySelector('.subject-name');
+                const strengthBtn = item.querySelector('.strength-btn.active');
+                
+                if (nameInput.value.trim()) {
+                    let strength = 'neutral';
+                    if (strengthBtn) {
+                        if (strengthBtn.classList.contains('weak')) strength = 'weak';
+                        if (strengthBtn.classList.contains('strong')) strength = 'strong';
+                    }
+                    
+                    subjects.push({
+                        name: nameInput.value.trim(),
+                        strength: strength
+                    });
+                }
+            });
+            
+            // If no subjects, use defaults
+            if (subjects.length === 0) {
+                subjects.push({name: "Mathematics", strength: "neutral"});
+                subjects.push({name: "Physics", strength: "weak"});
+                subjects.push({name: "Chemistry", strength: "strong"});
+                subjects.push({name: "Biology", strength: "neutral"});
+            }
+            
+            const weakSubjects = subjects.filter(s => s.strength === 'weak');
+            const neutralSubjects = subjects.filter(s => s.strength === 'neutral');
+            const strongSubjects = subjects.filter(s => s.strength === 'strong');
+            
+            // Create a balanced schedule
+            timeBlocks.push({ id: 1, time: "6:00 AM", title: "Morning Routine", type: "personal", subject: "", duration: 1, recurring: "daily" });
+            timeBlocks.push({ id: 2, time: "7:00 AM", title: "Breakfast", type: "meal", subject: "", duration: 1, recurring: "daily" });
+            
+            // Morning study block - focus on weak subjects
+            if (weakSubjects.length > 0) {
+                timeBlocks.push({ 
+                    id: 3, 
+                    time: "8:00 AM", 
+                    title: `Study ${weakSubjects[0].name}`, 
+                    type: "study", 
+                    subject: weakSubjects[0].name, 
+                    duration: 2,  // Weak subjects get more time
+                    recurring: "weekdays" 
+                });
+            }
+            
+            timeBlocks.push({ id: 4, time: "10:00 AM", title: "Short Break", type: "break", subject: "", duration: 0.5, recurring: "daily" });
+            
+            // Late morning - neutral subjects
+            if (neutralSubjects.length > 0) {
+                timeBlocks.push({ 
+                    id: 5, 
+                    time: "10:30 AM", 
+                    title: `Study ${neutralSubjects[0].name}`, 
+                    type: "study", 
+                    subject: neutralSubjects[0].name, 
+                    duration: 1.5, 
+                    recurring: "weekdays" 
+                });
+            }
+            
+            timeBlocks.push({ id: 6, time: "12:00 PM", title: "Lunch Break", type: "meal", subject: "", duration: 1, recurring: "daily" });
+            
+            // Afternoon - mixed activities
+            if (subjects.length > 1) {
+                const afternoonSubject = subjects[1];
+                timeBlocks.push({ 
+                    id: 7, 
+                    time: "2:00 PM", 
+                    title: `Review ${afternoonSubject.name}`, 
+                    type: "review", 
+                    subject: afternoonSubject.name, 
+                    duration: 1, 
+                    recurring: "weekdays" 
+                });
+            }
+            
+            timeBlocks.push({ id: 8, time: "3:00 PM", title: "Project Work", type: "project", subject: "", duration: 2, recurring: "weekly" });
+            timeBlocks.push({ id: 9, time: "5:00 PM", title: "Exercise", type: "exercise", subject: "", duration: 1, recurring: "weekdays" });
+            timeBlocks.push({ id: 10, time: "7:00 PM", title: "Dinner", type: "meal", subject: "", duration: 1, recurring: "daily" });
+            timeBlocks.push({ id: 11, time: "8:00 PM", title: "Evening Review", type: "review", subject: "", duration: 1, recurring: "daily" });
+            timeBlocks.push({ id: 12, time: "9:00 PM", title: "Personal Time", type: "personal", subject: "", duration: 1, recurring: "daily" });
+            timeBlocks.push({ id: 13, time: "10:00 PM", title: "Sleep", type: "sleep", subject: "", duration: 2, recurring: "daily" });
+            
+            renderVerticalTimeBlocks();
+            showBlockDetails(null);
+            
+            alert('Auto-generated time blocks created! Based on your subjects, weak subjects get more study time.');
+        });
+        
+        // Clear all time blocks
+        document.getElementById('clearTimeBlocksBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to clear all time blocks?')) {
+                timeBlocks = [];
+                renderVerticalTimeBlocks();
+                showBlockDetails(null);
+            }
+        });
+        
+        // Apply time blocks button
+        document.getElementById('applyTimeBlocksBtn').addEventListener('click', function() {
+            renderVerticalTimeBlocks();
+            alert('Time blocks refreshed!');
+        });
+        
+        // Generate study plan
+        document.getElementById('generatePlanBtn').addEventListener('click', function() {
+            const userName = document.getElementById('userName').value;
+            const educationLevel = document.getElementById('educationLevel').value;
+            const studyGoal = document.getElementById('studyGoal').value;
+            
+            // Collect subjects
+            const subjects = [];
+            document.querySelectorAll('.subject-item').forEach(item => {
+                const nameInput = item.querySelector('.subject-name');
+                const strengthBtn = item.querySelector('.strength-btn.active');
+                
+                if (nameInput.value.trim()) {
+                    let strength = 'neutral';
+                    if (strengthBtn) {
+                        if (strengthBtn.classList.contains('weak')) strength = 'weak';
+                        if (strengthBtn.classList.contains('strong')) strength = 'strong';
+                    }
+                    
+                    subjects.push({
+                        name: nameInput.value.trim(),
+                        strength: strength
+                    });
+                }
+            });
+            
+            if (!userName || !educationLevel || !studyGoal || subjects.length === 0) {
+                alert('Please fill in all fields and add at least one subject to generate your study plan.');
+                return;
+            }
+            
+            // Create a study plan based on subjects and their strength
+            let planHTML = `
+                <div class="study-plan">
+                    <h4>Personalized Study Plan for ${userName}</h4>
+                    <p><strong>Education Level:</strong> ${document.getElementById('educationLevel').options[document.getElementById('educationLevel').selectedIndex].text}</p>
+                    <p><strong>Study Goal:</strong> ${studyGoal}</p>
+                    
+                    <h5 style="margin-top: 20px;">Subject Analysis & Time Allocation</h5>
+                    <ul style="margin-top: 15px;">
+            `;
+            
+            // Calculate time allocation
+            subjects.forEach(subject => {
+                let timeAllocation = "1 hour daily";
+                let strengthText = "Neutral";
+                let strengthColor = "var(--primary)";
+                
+                if (subject.strength === 'weak') {
+                    timeAllocation = "1.5-2 hours daily";
+                    strengthText = "Weak - Needs More Focus";
+                    strengthColor = "var(--danger)";
+                } else if (subject.strength === 'strong') {
+                    timeAllocation = "30-45 minutes daily";
+                    strengthText = "Strong - Maintenance Only";
+                    strengthColor = "var(--success)";
+                }
+                
+                planHTML += `
+                    <li style="margin-bottom: 10px;">
+                        <strong>${subject.name}:</strong> 
+                        <span style="color: ${strengthColor}; font-weight: 600;">${strengthText}</span> 
+                        - ${timeAllocation}
+                    </li>
+                `;
+            });
+            
+            planHTML += `
+                    </ul>
+                    <p style="margin-top: 20px; padding: 15px; background-color: #e7f3ff; border-radius: 8px;">
+                        <i class="fas fa-lightbulb" style="color: var(--warning); margin-right: 8px;"></i>
+                        <strong>AI Tip:</strong> Weak subjects receive 50-100% more study time than strong subjects. Check the "Time Blocks" tab for a detailed schedule.
+                    </p>
+                </div>
+            `;
+            
+            document.getElementById('studyPlanDisplay').innerHTML = planHTML;
+            
+            // Add some sample tasks based on the subjects
+            subjects.forEach(subject => {
+                // Quadrant 2 task (Important but not urgent)
+                const newTask = {
+                    id: tasks.length + 1,
+                    text: `Study ${subject.name} - review key concepts`,
+                    completed: false,
+                    quadrant: '2',
+                    subject: subject.name
+                };
+                
+                tasks.push(newTask);
+                
+                // For weak subjects, add an extra task
+                if (subject.strength === 'weak') {
+                    const extraTask = {
+                        id: tasks.length + 1,
+                        text: `Practice ${subject.name} problems`,
+                        completed: false,
+                        quadrant: '1',
+                        subject: subject.name
+                    };
+                    
+                    tasks.push(extraTask);
+                }
+            });
+            
+            renderTasks();
+            updateSubjectDropdown();
+            updateTimeBlockSubjectDropdown();
+            
+            // Switch to planner tab
+            document.querySelector('.app-tab[data-tab="planner"]').click();
+            
+            alert('Your personalized study plan has been generated! Check the "Time Blocks" tab for a detailed schedule.');
+        });
+        
+        // Refresh plan button
+        document.getElementById('refreshPlanBtn').addEventListener('click', function() {
+            alert('Your study plan has been refreshed based on your recent progress.');
+        });
+        
+        // Navigation buttons
+        document.getElementById('startPlanningBtn').addEventListener('click', function() {
+            document.querySelector('.app-tab[data-tab="profile"]').click();
+            document.getElementById('planner').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        document.getElementById('learnMoreBtn').addEventListener('click', function() {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            alert('Login functionality would be implemented in a full application.');
+        });
+        
+        document.getElementById('signupBtn').addEventListener('click', function() {
+            document.querySelector('.app-tab[data-tab="profile"]').click();
+            document.getElementById('planner').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
     </script>
